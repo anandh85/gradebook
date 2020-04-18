@@ -1,9 +1,9 @@
 {% extends "index.html" %}
 {% block title %}Edit Assignment Grade{% endblock %}
 {% block head %}
-<link rel="stylesheet" type="text/css" href="../../static/formsection.css" />
-  {{ super() }}
-  {% endblock %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='formsection.css')}}" />
+{{ super() }}
+{% endblock %}
 {% block content %}
 <section id= "cover">
   <div id= "cover-caption">
@@ -16,7 +16,7 @@
               <input type="hidden" id="student_id" name="studentid" value="{{sid}}" />
               <input type="hidden" id="assignment_id" name="assignmentid" value="{{assignmentid}}" />
               <div class="form-group">
-                <label for="namelabel"><strong>Assignment Name:</strong</label>
+                <label for="namelabel"><strong>Assignment Name:</strong></label>
                 <input
                   type="text"
                   class="form-control-plaintext"

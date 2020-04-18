@@ -1,4 +1,5 @@
-.migrations/
+migrations/
 .cache/
 .__pycache__/
 .vscode
+*.pyc
