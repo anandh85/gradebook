@@ -1,0 +1,17 @@
+#cover {
+  height: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+#cover-caption {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+th {
+  text-align: center;
+}

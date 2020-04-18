@@ -1,0 +1,115 @@
+{% extends "index.html" %} {% block title %}View Students Record{% endblock %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="../../static/tableform.css" />
+{{ super() }} {% endblock %}
+
+{% block content %}
+<div class="row"></div>
+<div class="row">
+  <span></br></span>
+</div>
+<!-- Form for creating a new student-->
+<form action = '/addstudent' id='addStutdent' method = 'GET'>
+<div class="row">
+  <button type="submit" name="submit" value="save" class="btn btn-success">
+    Add Student
+  </button>
+</div>
+</form>
+<div class="row">
+    <span></br></span>
+  </div>
+<!-- Form for showing all the students records-->
+<section id= "tablecover">
+  <div id= "cover-caption">
+    <div class="container">
+      <div class = "row">
+        <div class="mx-auto form p-2">
+          <div class="px-0">
+            <form id='viewstudent'>
+              <div class="row">
+                <div class="table-responsive">
+                  <table class="table table-striped table-hover w-auto">
+                    <thead class="thead-blue">
+                      <tr class="table-primary">
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Id</th>
+                        <th>Major</th>
+                        <th>Email</th>
+                        <th>Roster</th>
+                        <th>Class</th>
+                        <th>Options</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for student in studentlist %}
+                      <tr id="{{student[0].id}}">
+                        <td>{{student[0].first_name}}</a></div></td>
+                        <td>{{student[0].last_name}}</td>
+                        <td><div style = "display:inline-block;"><a class = "stud_id" id="view_{{student[0].id}}" href='#' data-stud-id={{student[0].student_id}}>{{student[0].student_id}}</a></div></td>
+                        <td>Information Systems</td>
+                        <td>{{student[0].email}}</td>
+                        {% for roster in student[1]%}
+                        <td><div style = "display:inline-block;"><a class = "roster" id="view_{{student[0].id}}" href='#' data-roster-id={{roster.id}}>{{roster.roster_name}}</a></div></td>
+                        {% endfor %} {% for class in student[2]%}
+                        <td>{{class.class_name}}</td>
+                        {% endfor %}
+                        <td>
+                          <div style = "display:inline-block;" >
+                          <a class = "view" id="view_{{student[0].id}}" href='#' data-student-id={{student[0].id}} data-class-id= {{student[0].class_id}}><i class="btn-light fas fa-eye" ></i></a>
+                        </div>
+                        <div style = "display:inline-block;">
+                          <a class = "delete" href="#" id="delete_{{student[0].id}}" data-student-id={{student[0].id}} data-class-id= {{student[0].class_id}}><i class="btn-light fas fa-trash"></i></a>
+                        </div>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Java Script to change the Form Action to either view/delete-->
+<script type="text/javascript">
+$(document).ready(function() {
+  $(function() {
+    $('a.view').click(function(e){
+    e.preventDefault();
+    var student_id = $(this).attr('data-student-id')
+    var class_id = $(this).attr('data-class-id')
+    var url = "{{url_for('baseURL')}}".replace('student_id',student_id).replace('class_id',class_id);
+    $('#viewstudent').attr("method", "GET");
+    $('#viewstudent').attr("action", url);
+    $('#viewstudent').submit();
+    });
+  });
+});
+
+$('a.delete').click(function(e){
+    e.preventDefault();
+    var student_id = $(this).attr('data-student-id')
+    var class_id = $(this).attr('data-class-id')
+    $('<input>').attr('type','hidden').attr('name','studentid').attr('value',student_id).appendTo('#viewstudent')
+    $('<input>').attr('type','hidden').attr('name','classid').attr('value',class_id).appendTo('#viewstudent')
+    $('#viewstudent').attr("action", "{{url_for('deletestudentrecord')}}");
+    $('#viewstudent').attr("method", "POST");
+    $('#viewstudent').submit();
+    });
+
+$('a.stud_id').click(function(e){
+    e.preventDefault();
+    var stud_id = $(this).attr('data-stud-id')
+    var url = "{{url_for('baseShowResultbyId')}}".replace('stud_id',stud_id)
+    $('#viewstudent').attr("action", url);
+    $('#viewstudent').attr("method", "GET");
+    $('#viewstudent').submit();
+    });
+</script>
+{% endblock %}

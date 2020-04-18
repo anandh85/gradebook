@@ -1,0 +1,17 @@
+#tablecover {
+  height: 100%;
+  text-align: left;
+  display: inline-block;
+  align-items: center;
+  position: relative;
+}
+
+#cover-caption {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+table thead th {
+  text-align: center;
+}

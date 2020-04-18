@@ -1,0 +1,94 @@
+{% extends "index.html" %} {% block title %}View GradeBook{% endblock %} {%
+block head %} {{ super() }} {% endblock %} {% block content %}
+<div class="row"></div>
+<div class="row">
+  <span></br></span>
+</div>
+<div class="row">
+  <span><label>Name:</label> {{student.first_name}} {{student.last_name}} </span>
+</div>
+<div class="row">
+  <span ><label>Class:</label> {{studentclass}}</span>
+</div>
+<div class="row">
+  <span><label>Roster:</label> {{rosterdetails}}</span>
+</div>
+<div class="row">
+  <span><label>Average Grade:</label> {{avggrade}} </span>
+</div>
+<!-- Form for creating a new assignment-->
+<form action = "{{url_for('newassignment', studentid=student.id, classid=student.class_id)}}" id='addassignment' method = 'GET'>
+ <div class="row">
+  <button type="submit" name="submit" value="create" class="btn btn-success">
+    Add Assignment
+  </button>
+  </div>
+  </form>
+<div class="row">
+  <span></br></span>
+</div>
+<!-- Form for showing all the students records-->
+<form id='viewgrades'>
+  <div class="row">
+    <div class=".table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="thead-blue">
+          <tr class="table-primary">
+            <th>Assignment Name</th>
+            <th>Grade</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for assignment in assignmentinfo %}
+          <tr id="{{assignment.id}}">
+            <td>{{assignment.assignment_name}}</td>
+            <td>{{assignment.grade}}</td>
+            <td>
+              <div style = "display:inline-block;" >
+              <a class = "edit" id="edit_{{assignment.id}}", data-student-id={{student.id}} data-class-id= {{student.class_id}} data-assignment-id ={{assignment.id}} href="{{url_for('editassignmentgrade',studentid = student.id, classid = cid, id = assignment.id)}}">
+                <i class="btn-light fas fa-edit"></i></a>
+              </div>
+              <div style = "display:inline-block;" >
+              <a class = "delete" id="edit_{{assignment.id}}", data-student-id={{student.id}} data-class-id= {{student.class_id}} data-assignment-id ={{assignment.id}} href="#">
+                <i class="btn-light fas fa-trash"></i></a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </form>
+  <!-- Java Script to change the Form Action to either view/delete-->
+<script type="text/javascript">
+$(document).ready(function() {
+  $(function() {
+    $('a.edit').click(function(e){
+    e.preventDefault();
+    var student_id = $(this).attr('data-student-id')
+    var class_id = $(this).attr('data-class-id')
+    var assignment_id = $(this).attr('data-assignment-id')
+    var url = "{{url_for('baseEditURL')}}".replace('student_id',student_id).replace('class_id',class_id).replace('assignment_id',assignment_id);
+    $('#viewgrades').attr("method", "GET");
+    $('#viewgrades').attr("action", url);
+    $('#viewgrades').submit();
+    });
+  });
+});
+  $('a.delete').click(function(e){
+      e.preventDefault();
+      var student_id = $(this).attr('data-student-id')
+      var class_id = $(this).attr('data-class-id')
+      var assignment_id = $(this).attr('data-assignment-id')
+      $('<input>').attr('type','hidden').attr('name','studentid').attr('value',student_id).appendTo('#viewgrades')
+      $('<input>').attr('type','hidden').attr('name','classid').attr('value',class_id).appendTo('#viewgrades')
+      $('<input>').attr('type','hidden').attr('name','assignmentid').attr('value',assignment_id).appendTo('#viewgrades')
+      $('#viewgrades').attr("action", "{{url_for('deleteassignment')}}");
+      $('#viewgrades').attr("method", "POST");
+      $('#viewgrades').submit();
+      });
+  </script>
+  {% endblock %}
+
