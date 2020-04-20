@@ -10,6 +10,7 @@ block head %}
         <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4">
           <div class="px-2">
             <form
+              id="createstudent"
               class="justify-content-center"
               action="/addstudent"
               method="POST"
@@ -67,7 +68,7 @@ block head %}
               <div class="form-group">
                 <label for="sclass"><strong>Roster:</strong></label>
                 <select class="form-control" name="rosteroptions">
-                  <option value="Select">Select</option>
+                  <option value="">Select</option>
                   {% for item in rosterlist %}
                   <option value="{{item.id}}">{{item.roster_name}}</option>
                   {% endfor %}
@@ -76,7 +77,7 @@ block head %}
               <div class="form-group">
                 <label for="sclass"><strong>Class:</strong></label>
                 <select class="form-control" name="classoptions">
-                  <option value="Select">Select</option>
+                  <option value="">Select</option>
                   {% for item in classlist %}
                   <option value="{{item.id}}">{{item.class_name}}</option>
                   {% endfor %}
@@ -105,4 +106,40 @@ block head %}
     </div>
   </div>
 </section>
+<script>
+  $(document).ready(function () {
+    $(function () {
+      $('#createstudent').validate({
+        // Specify validation rules
+        rules: {
+          fname: 'required',
+          lname: 'required',
+          email: {
+            required: true,
+            email: true,
+          },
+          id: 'required',
+          rosteroptions: {
+            required: true,
+          },
+          classoptions: {
+            required: true,
+          },
+        },
+        // Specify validation error messages
+        messages: {
+          fname: 'Please enter your firstname',
+          lname: 'Please enter your lastname',
+          id: 'Please enter id',
+          email: 'Please enter a valid email address',
+          rosteroptions: 'Please select a Roster',
+          classoptions: 'Please select a Class',
+        },
+        submitHandler: function (form) {
+          form.submit();
+        },
+      });
+    });
+  });
+</script>
 {% endblock %}
