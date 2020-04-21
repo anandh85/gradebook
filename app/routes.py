@@ -17,19 +17,24 @@ def error_handler(e):
     else:
         return "Some other Error {}".format(e.code)
 
-# Dummy Base URL
+# Dummy Base URL for viewgrade
 @app.route('/viewgrade/student_id/class_id')
 def base_url():
     return "None"
 
-
+# Dummy Base URL for editgrade
 @app.route('/editgrade/student_id/class_id/assignment_id')
 def base_edit_url():
     return "None"
 
-
+# Dummy Base URL for viewstudentdetails
 @app.route('/viewstudentdetails/stud_id')
 def base_show_result_by_id():
+    return "None"
+
+# Dummy Base URL for studentdetailsbyroster
+@app.route('/viewrostergrades/roster_id')
+def base_show_result_by_roster_id():
     return "None"
 
 # Home Page
@@ -64,8 +69,6 @@ def logout():
     return redirect(url_for('login'))
 
 # Add New Assignment for a User in a Class
-
-
 @app.route('/assignment/<int:studentid>/<int:classid>', methods=['GET'])
 @login_required
 def new_assignment(studentid, classid):
@@ -89,7 +92,7 @@ def edit_assignment_grade(studentid, classid, id):
 def add_assignment():
     if request.method == 'POST':
         if request.form['submit'] == 'cancel':
-            return redirect(url_for('viewgradebook', studentid=request.form['studentid'], classid=request.form['classid']))
+            return redirect(url_for('view_gradebook', studentid=request.form['studentid'], classid=request.form['classid']))
         elif request.form['submit'] == 'save':
             newgrade = Assignments(student_id=request.form['studentid'], class_id=request.form['classid'],
                                    assignment_name=request.form['assignname'], grade=request.form['assigngrade'])
@@ -103,7 +106,7 @@ def add_assignment():
 def update_assignment():
     if request.method == 'POST':
         if request.form['submit'] == 'cancel':
-            return redirect(url_for('viewgradebook', studentid=request.form['studentid'], classid=request.form['classid']))
+            return redirect(url_for('view_gradebook', studentid=request.form['studentid'], classid=request.form['classid']))
         elif request.form['submit'] == 'save':
             db.session.query(Assignments).filter(Assignments.id == request.form['assignmentid']).update(
                 {'assignment_name': request.form['assignname'], 'grade': request.form['assigngrade']})
@@ -145,7 +148,6 @@ def delete_assignment():
     db.session.commit()
     return redirect(url_for('view_gradebook', studentid=request.form['studentid'], classid=request.form['classid']))
 
-
 # Route to Add a Student
 @app.route('/addstudent', methods=['GET', 'POST'])
 @login_required
@@ -166,7 +168,6 @@ def create_student_record():
     roster_list = Roster.query.all()
     class_list = StudentClass.query.all()
     return make_response(render_template('student/addstudent.html', rosterlist=roster_list, classlist=class_list), 200)
-
 
 # Route to delete student record
 @app.route('/deletestudent', methods=['POST'])
@@ -215,5 +216,26 @@ def show_student_details(stud_id):
                                   'studentroster': student.roster.roster_name,
                                   'assignments': student.students
                                   })
-        sorted(rosterdetails, key=lambda k: k['studentroster'])
+        rosterdetails = sorted(rosterdetails, key=lambda k: k['studentroster'])
         return make_response(render_template('student/studentdetails.html', fullname=fullname, email=email, studentid=studentid, studentlist=rosterdetails, averagegrade=sum(grades)/len(grades) if len(grades) != 0 else 'N/A'), 200)
+
+# Display All the Student Scores by Roster
+@app.route('/viewrostergrades/<string:r_id>', methods=['GET'])
+@login_required
+def show_student_grades_by_roster(r_id):
+    rosterdetails = []
+    grades = []
+    if request.method == 'GET':
+        query1 = db.session.query(Students).filter(
+            Students.roster_id == r_id)
+        for student in query1:
+            grades.clear()
+            for assignments in student.students:
+                grades.append(assignments.grade)
+            rostername = student.roster.roster_name
+            rosterdetails.append({'studentname': student.first_name + ' ' + student.last_name,
+                                  'studentclassname': student.studentclass.class_name,
+                                  'grade': sum(grades)/len(grades) if len(grades) != 0 else 'N/A'
+                                  })
+        rosterdetails = sorted(rosterdetails, key=lambda k: k['studentname'])
+        return make_response(render_template('student/studentdetailsbyroster.html',  studentlist=rosterdetails, roster_name=rostername), 200)
