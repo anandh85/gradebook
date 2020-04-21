@@ -11,3 +11,6 @@
   position: relative;
   z-index: 1;
 }
+.error {
+  color: red;
+}

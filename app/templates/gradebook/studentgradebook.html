@@ -17,7 +17,7 @@ block head %} {{ super() }} {% endblock %} {% block content %}
   <span><label>Average Grade:</label> {{avggrade}} </span>
 </div>
 <!-- Form for creating a new assignment-->
-<form action = "{{url_for('newassignment', studentid=student.id, classid=student.class_id)}}" id='addassignment' method = 'GET'>
+<form action = "{{url_for('new_assignment', studentid=student.id, classid=student.class_id)}}" id='addassignment' method = 'GET'>
  <div class="row">
   <button type="submit" name="submit" value="create" class="btn btn-success">
     Add Assignment
@@ -46,7 +46,7 @@ block head %} {{ super() }} {% endblock %} {% block content %}
             <td>{{assignment.grade}}</td>
             <td>
               <div style = "display:inline-block;" >
-              <a class = "edit" id="edit_{{assignment.id}}", data-student-id={{student.id}} data-class-id= {{student.class_id}} data-assignment-id ={{assignment.id}} href="{{url_for('editassignmentgrade',studentid = student.id, classid = cid, id = assignment.id)}}">
+              <a class = "edit" id="edit_{{assignment.id}}", data-student-id={{student.id}} data-class-id= {{student.class_id}} data-assignment-id ={{assignment.id}} href="{{url_for('edit_assignment_grade',studentid = student.id, classid = cid, id = assignment.id)}}">
                 <i class="btn-light fas fa-edit"></i></a>
               </div>
               <div style = "display:inline-block;" >
@@ -70,7 +70,7 @@ $(document).ready(function() {
     var student_id = $(this).attr('data-student-id')
     var class_id = $(this).attr('data-class-id')
     var assignment_id = $(this).attr('data-assignment-id')
-    var url = "{{url_for('baseEditURL')}}".replace('student_id',student_id).replace('class_id',class_id).replace('assignment_id',assignment_id);
+    var url = "{{url_for('base_edit_url')}}".replace('student_id',student_id).replace('class_id',class_id).replace('assignment_id',assignment_id);
     $('#viewgrades').attr("method", "GET");
     $('#viewgrades').attr("action", url);
     $('#viewgrades').submit();
@@ -85,7 +85,7 @@ $(document).ready(function() {
       $('<input>').attr('type','hidden').attr('name','studentid').attr('value',student_id).appendTo('#viewgrades')
       $('<input>').attr('type','hidden').attr('name','classid').attr('value',class_id).appendTo('#viewgrades')
       $('<input>').attr('type','hidden').attr('name','assignmentid').attr('value',assignment_id).appendTo('#viewgrades')
-      $('#viewgrades').attr("action", "{{url_for('deleteassignment')}}");
+      $('#viewgrades').attr("action", "{{url_for('delete_assignment')}}");
       $('#viewgrades').attr("method", "POST");
       $('#viewgrades').submit();
       });
