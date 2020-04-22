@@ -2,7 +2,24 @@ from app import app
 from app import db
 from flask_migrate import Migrate
 from sqlalchemy.orm import relationship
+from flask_login import UserMixin
+from werkzeug.security import check_password_hash
+
+
 migrate = Migrate(app, db)
+
+
+class Users(UserMixin, db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(128))
+    password_hash = db.Column(db.String(128))
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def get_id(self):
+        return self.username
 
 
 class StudentClass(db.Model):

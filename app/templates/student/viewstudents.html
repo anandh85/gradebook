@@ -51,7 +51,7 @@
                         <td>Information Systems</td>
                         <td>{{student[0].email}}</td>
                         {% for roster in student[1]%}
-                        <td><div style = "display:inline-block;"><a class = "roster" id="view_{{student[0].id}}" href='#' data-roster-id={{roster.id}}>{{roster.roster_name}}</a></div></td>
+                        <td><div style = "display:inline-block;"><a class = "r_id" id="view_{{student[0].id}}" href='#' data-roster-id={{roster.id}}>{{roster.roster_name}}</a></div></td>
                         {% endfor %} {% for class in student[2]%}
                         <td>{{class.class_name}}</td>
                         {% endfor %}
@@ -84,7 +84,7 @@ $(document).ready(function() {
     e.preventDefault();
     var student_id = $(this).attr('data-student-id')
     var class_id = $(this).attr('data-class-id')
-    var url = "{{url_for('baseURL')}}".replace('student_id',student_id).replace('class_id',class_id);
+    var url = "{{url_for('base_url')}}".replace('student_id',student_id).replace('class_id',class_id);
     $('#viewstudent').attr("method", "GET");
     $('#viewstudent').attr("action", url);
     $('#viewstudent').submit();
@@ -98,15 +98,24 @@ $('a.delete').click(function(e){
     var class_id = $(this).attr('data-class-id')
     $('<input>').attr('type','hidden').attr('name','studentid').attr('value',student_id).appendTo('#viewstudent')
     $('<input>').attr('type','hidden').attr('name','classid').attr('value',class_id).appendTo('#viewstudent')
-    $('#viewstudent').attr("action", "{{url_for('deletestudentrecord')}}");
+    $('#viewstudent').attr("action", "{{url_for('delete_student_record')}}");
     $('#viewstudent').attr("method", "POST");
     $('#viewstudent').submit();
     });
-
+//Script to change form action to show student details by Student ID
 $('a.stud_id').click(function(e){
     e.preventDefault();
     var stud_id = $(this).attr('data-stud-id')
-    var url = "{{url_for('baseShowResultbyId')}}".replace('stud_id',stud_id)
+    var url = "{{url_for('base_show_result_by_id')}}".replace('stud_id',stud_id)
+    $('#viewstudent').attr("action", url);
+    $('#viewstudent').attr("method", "GET");
+    $('#viewstudent').submit();
+    });
+//Script to change form action to show student details by roster name
+  $('a.r_id').click(function(e){
+    e.preventDefault();
+    var roster_id = $(this).attr('data-roster-id')
+    var url = "{{url_for('base_show_result_by_roster_id')}}".replace('roster_id',roster_id)
     $('#viewstudent').attr("action", url);
     $('#viewstudent').attr("method", "GET");
     $('#viewstudent').submit();

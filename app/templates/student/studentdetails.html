@@ -1,83 +1,79 @@
 {% extends "index.html" %} {% block title %}Show Students Details{% endblock %}
 {% block head %} {{ super() }} {% endblock %} {% block content %}
 
-<div class="row"></div>
 <div class="row">
   <span></br></span>
 </div>
 <!-- Form for creating a new student-->
 <form  id='StutdentRecord'>
-  <div class="container">
-  <div class="row">
-     <span><label>Student Name:</label> {{fullname}}</span>
+    <div class="container">
+    <div class="row">
+      <span><label>Student Name:</label> {{fullname}}</span>
+    </div>
+    <div class="row">
+      <span><label>Student ID:</label> {{studentid}}</span>
+    </div>
+    <div class="row">
+      <span><label>Student Email &nbsp;<i class="fas fa-envelope"></i></label> {{email}}</span>
+    </div>
+    <div class="row">
+      <span><label>Major:</i></label> Information Systems</span>
+    </div>
+    <div class="row">
+      <span><label>Overall Grade:</i></label> {{averagegrade}}</span>
+    </div>
   </div>
-  <div class="row">
-     <span><label>Student ID:</label> {{studentid}}</span>
-  </div>
-  <div class="row">
-    <span><label>Student Email &nbsp;<i class="fas fa-envelope"></i></label> {{email}}</span>
-  </div>
-  <div class="row">
-    <span><label>Major:</i></label> Information Systems</span>
-  </div>
-  <div class="row">
-    <span><label>Overall Grade:</i></label> {{averagegrade}}</span>
-  </div>
-</div>
 </form>
 <div class="row">
     <span></br></span>
-  </div>
+</div>
 <!-- Form for showing all the students records-->
 <form id='viewstudent'>
-<div class="row">
-  {% if studentlist %}
-    {% for details in studentlist %}
-    <div class = "row">
-      {% for k, v in details.items() %}
-      <div class='container'>
-
-        {% if k == 'studentroster' %}
-          <div class="row">
-          <span><label>Roster Name:</i></label> {{v}}</span>
-          </div>
-        {% endif %}
-        {% if k == 'studentclassname' %}
-          <div class="row">
-          <span><label>Class Name:</i></label> {{v}}</span>
-          </div>
-        </div>
-        {% endif %}
-      {% if k == 'assignments' %}
-        <div class = 'row'>
-        <div class=".table-responsive">
-          <table class="table table-striped table-hover">
-            <thead class="thead-blue">
-              <tr class="table-primary">
-                <th>Assignment Name</th>
-                <th>Grade</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for items in v %}
-              <tr>
-                <td>{{items.assignment_name}}</td>
-                <td>{{items.grade}}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-          </div>
-        </div>
-      </div>
-
+  <div class="row">
+    {% if studentlist %}
+      {% for details in studentlist %}
+        <div class = "row">
+          {% for k, v in details.items() %}
+            <div class='container'>
+              {% if k == 'studentroster' %}
+                <div class="row">
+                  <span><label>Roster Name:</i></label> {{v}}</span>
+                </div>
+              {% endif %}
+              {% if k == 'studentclassname' %}
+                <div class="row">
+                  <span><label>Class Name:</i></label> {{v}}</span>
+                </div>
+            </div>
+              {% endif %}
+              {% if k == 'assignments' %}
+                <div class = 'row'>
+                  <div class=".table-responsive">
+                    <table class="table table-striped table-hover">
+                      <thead class="thead-blue">
+                        <tr class="table-primary">
+                          <th>Assignment Name</th>
+                          <th>Grade (/100)</th>
+                       </tr>
+                      </thead>
+                      <tbody>
+                      {% for items in v %}
+                      <tr>
+                       <td>{{items.assignment_name}}</td>
+                       <td>{{items.grade}}</td>
+                      </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      {% else %}
+        <span> No Records Available </span>
       {% endif %}
-      {% endfor %}
-    {% endfor %}
-    {% else %}
-    <span> No Records Available </span>
-     {% endif %}
-
-</div>
+  </div>
 </form>
 {% endblock %}
