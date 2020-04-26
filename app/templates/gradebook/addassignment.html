@@ -5,13 +5,16 @@
   {{ super() }}
   {% endblock %}
 {% block content %}
+<div class="container">
+  <h2 class="text-center">Add Assignment</h2>
+</div>
 <section id= "cover">
   <div id= "cover-caption">
     <div class="container">
       <div class = "row">
         <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4">
           <div class="px-2">
-            <form class="justify-content-center" action="{{url_for('add_assignment')}}" method="POST">
+            <form class="justify-content-center" id="addassignment" action="{{url_for('add_assignment')}}" method="POST">
               <input type="hidden" id="class_id" name="classid" value="{{cid}}" />
               <input type="hidden" id="student_id" name="studentid" value="{{sid}}" />
               <div class="form-group">
@@ -56,4 +59,30 @@
      </div>
    </div>
 </section>
+<script>
+  $(document).ready(function () {
+    jQuery.validator.addMethod("dollarsscents", function(value, element) { return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value); }, "You must include two decimal places");
+    $(function () {
+      $('#addassignment').validate({
+        // Specify validation rules
+        
+        rules: {
+          assignname: 'required',
+        
+          assigngrade: { required: true, number: true, min:0, max:100, dollarsscents: true }
+          
+        },
+        // Specify validation error messages
+        messages: {
+          assignname: 'Please enter Assignment Name',
+          assigngrade: 'Please enter Assignment Grade',
+          
+        },
+        submitHandler: function (form) {
+          form.submit();
+        },
+      });
+    });
+  });
+</script>
 {% endblock %}
