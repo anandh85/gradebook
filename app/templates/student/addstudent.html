@@ -19,7 +19,7 @@ block head %}
               method="POST"
             >
               <div class="form-group">
-                <label for="usr"><strong>First Name:</strong></label>
+                <label for="usr"><strong>First Name:</strong></label> <span class="required">*</span>
                 <input
                   type="text"
                   class="form-control"
@@ -29,7 +29,7 @@ block head %}
                 />
               </div>
               <div class="form-group">
-                <label for="usr"><strong>Last Name:</strong></label>
+                <label for="usr"><strong>Last Name:</strong></label> <span class="required">*</span>
                 <input
                   type="text"
                   class="form-control"
@@ -39,7 +39,7 @@ block head %}
                 />
               </div>
               <div class="form-group">
-                <label for="usr"><strong>ID:</strong></label>
+                <label for="usr"><strong>ID:</strong></label> <span class="required">*</span>
                 <input
                   type="text"
                   class="form-control"
@@ -49,7 +49,7 @@ block head %}
                 />
               </div>
               <div class="form-group">
-                <label for="usr"><strong>Email:</strong></label>
+                <label for="usr"><strong>Email:</strong></label> <span class="required">*</span>
                 <input
                   type="text"
                   class="form-control"
@@ -59,7 +59,7 @@ block head %}
                 />
               </div>
               <div class="form-group">
-                <label for="usr"><strong>Major:</strong></label>
+                <label for="usr"><strong>Major:</strong></label> 
                 <input
                   type="text"
                   class="form-control-plaintext"
@@ -69,7 +69,7 @@ block head %}
                 />
               </div>
               <div class="form-group">
-                <label for="sclass"><strong>Roster:</strong></label>
+                <label for="sclass"><strong>Roster:</strong></label> <span class="required">*</span>
                 <select class="form-control" name="rosteroptions">
                   <option value="">Select</option>
                   {% for item in rosterlist %}
@@ -78,7 +78,7 @@ block head %}
                 </select>
               </div>
               <div class="form-group">
-                <label for="sclass"><strong>Class:</strong></label>
+                <label for="sclass"><strong>Class:</strong></label> <span class="required">*</span>
                 <select class="form-control" name="classoptions">
                   <option value="">Select</option>
                   {% for item in classlist %}
@@ -145,4 +145,7 @@ block head %}
     });
   });
 </script>
+<div>
+  <i>*Disclaimer: All fields are required</i>
+</div>
 {% endblock %}

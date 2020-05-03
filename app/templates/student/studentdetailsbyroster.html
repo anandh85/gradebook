@@ -1,16 +1,18 @@
 {% extends "index.html" %} {% block title %}Show Students Details By Roster{% endblock %}
-{% block head %} {{ super() }} {% endblock %} {% block content %}
-
+{% block head %} <link rel="stylesheet" type="text/css" href="../../static/tableform.css" />{{ super() }} {% endblock %} {% block content %}
   <div class="row">
     <span></br></span>
   </div>
   <div class="container">
     <h2 class="text-center">View Student Details by Roster</h2>
   </div>
+  <div class="row">
+    <span></br></span>
+  </div>
   <!-- Form for creating a new student-->
   <form  id='StutdentRecord'>
       <div class="container">
-        <div class="row">
+        <div class="row justify-content-center">
           <span><label>Roster Name:</label> {{roster_name}}</span>
         </div>
       </div>
@@ -20,11 +22,11 @@
   </div>
   <!-- Form for showing all the students records for a roster-->
   <form id='viewstudent'>
-    <div class="row">
+    <div class="row justify-content-center">
       {% if studentlist %}
         <div class='container'>
-          <div class = 'row'>
-            <div class=".table-responsive">
+          <div class = "row justify-content-center">
+            <div class="table-responsive">
               <table class="table table-striped table-hover">
                 <thead class="thead-blue">
                   <tr class="table-primary">

@@ -78,6 +78,20 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <i class="btn-light fas fa-eye" >&nbsp;View Student Gradebook</i>
+  </br>
+  </div>
+  <div class="row">
+    <i class="btn-light fas fa-trash">&nbsp;Delete Student Record</i>
+  </br>    
+  </div>
+  <div class="row">
+    <p>
+    <strong>Id- Click to view all grades of a student</br></strong>
+    <strong>Roster- Click to view all students in the roster</strong>
+  </p>
+  </div>
 </section>
 <!-- Java Script to change the Form Action to either view/delete-->
 <script type="text/javascript">
@@ -94,7 +108,6 @@ $(document).ready(function() {
     });
   });
 });
-
 $('a.delete').click(function(e){
     e.preventDefault();
     var student_id = $(this).attr('data-student-id')

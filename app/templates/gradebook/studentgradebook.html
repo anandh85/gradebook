@@ -17,10 +17,10 @@ block head %} <link rel="stylesheet" type="text/css" href="../../static/tablefor
   <span><label>Roster:</label> {{rosterdetails}}</span>
 </div>
 <div class="row">
-  <span><label>Average Grade:</label> {{avggrade}} </span>
+  <span><label>Average Grade:</label> {{avggrade}} <strong>/100.00</strong></span>
 </div>
 <div class="row">
-  <span></span>
+  <span></br></span>
 </div>
 <!-- Form for creating a new assignment-->
 <form action = "{{url_for('new_assignment', studentid=student.id, classid=student.class_id)}}" id='addassignment' method = 'GET'>
@@ -34,51 +34,48 @@ block head %} <link rel="stylesheet" type="text/css" href="../../static/tablefor
   <span></span>
 </div>
 <!-- Form for showing all the students records-->
-<section id= "tablecover">
-  <div id= "cover-caption">
-    <div class="container">
-      <div class = "row">
-        <div class="mx-auto form p-2">
-          <div class="px-0">
-            <form id='viewgrades'>
-              <div class="row">
-                <div class=".table-responsive">
-                  <table class="table table-striped table-hover">
-                    <thead class="thead-blue">
-                      <tr class="table-primary">
-                        <th>Assignment Name</th>
-                        <th>Grade (/100)</th>
-                        <th>Options</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for assignment in assignmentinfo %}
-                      <tr id="{{assignment.id}}">
-                        <td>{{assignment.assignment_name}}</td>
-                        <td>{{assignment.grade}}</td>
-                        <td>
-                          <div style = "display:inline-block;" >
-                          <a class = "edit" id="edit_{{assignment.id}}", data-student-id={{student.id}} data-class-id= {{student.class_id}} data-assignment-id ={{assignment.id}} href="{{url_for('edit_assignment_grade',studentid = student.id, classid = cid, id = assignment.id)}}">
-                            <i class="btn-light fas fa-edit"></i></a>
-                          </div>
-                          <div style = "display:inline-block;" >
-                          <a class = "delete" id="edit_{{assignment.id}}", data-student-id={{student.id}} data-class-id= {{student.class_id}} data-assignment-id ={{assignment.id}} href="#">
-                            <i class="btn-light fas fa-trash"></i></a>
-                          </div>
-                        </td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
+<form id='viewgrades'>
+  <div class="container">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="thead-blue">
+            <tr class="table-primary">
+              <th>Assignment Name</th>
+              <th>Grade (/100)</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for assignment in assignmentinfo %}
+              <tr id="{{assignment.id}}">
+                <td>{{assignment.assignment_name}}</td>
+                <td>{{assignment.grade}}</td>
+                <td>
+                  <div style = "display:inline-block;" >
+                   <a class = "edit" id="edit_{{assignment.id}}", data-student-id={{student.id}} data-class-id= {{student.class_id}} data-assignment-id ={{assignment.id}} href="{{url_for('edit_assignment_grade',studentid = student.id, classid = cid, id = assignment.id)}}">
+                    <i class="btn-light fas fa-edit"></i></a>
+                  </div>
+                  <div style = "display:inline-block;" >
+                    <a class = "delete" id="edit_{{assignment.id}}", data-student-id={{student.id}} data-class-id= {{student.class_id}} data-assignment-id ={{assignment.id}} href="#">
+                      <i class="btn-light fas fa-trash"></i></a>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
+</form>
+  <div class="row">
+    <i class="btn-light fas fa-edit" >&nbsp;Edit Assignment Grade</i>
+  </br>
   </div>
-</section>
+  <div class="row">
+    <i class="btn-light fas fa-trash">&nbsp;Delete Assignment</i>
+    </div>
+
   <!-- Java Script to change the Form Action to either view/delete-->
 <script type="text/javascript">
 $(document).ready(function() {

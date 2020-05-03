@@ -14,3 +14,8 @@
 .error {
   color: red;
 }
+
+.required {
+    color: #e32;
+    display: inline;
+}

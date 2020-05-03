@@ -15,3 +15,11 @@
 table thead th {
   text-align: center;
 }
+
+label {
+  font-weight: bold;
+}
+
+table tbody td {
+  text-align: center;
+}
